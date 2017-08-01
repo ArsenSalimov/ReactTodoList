@@ -6,13 +6,20 @@ import {Provider} from "react-redux";
 
 import ToDoList from "./ToDoList/ToDoList";
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin();
+
+import "./app.styl"
+
 const store = configureStore();
 
 ReactDOM.render(
     <Provider store={store}>
-        <div>
+        <MuiThemeProvider>
             <ToDoList/>
-        </div>
+        </MuiThemeProvider>
     </Provider>,
     document.getElementById('react-root')
 );

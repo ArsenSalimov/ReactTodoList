@@ -1,34 +1,39 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import ToDoItem from './ToDoItem/ToDoItem';
-import {ADD_ITEM} from "../store/contants/ToDoList";
+
+import ToDoItem from './ToDoItem';
+import ToDoInput from './ToDoInput';
+import {addItem, editItem, removeItem} from "../store/actions/ToDoListActions";
+
+import "./toDoList.styl"
 
 class ToDoList extends React.Component {
     constructor() {
         super();
+    }
 
-        this.onAddItemClick = this.onAddItemClick.bind(this)
+    renderToDoItem(toDoItem) {
+        return (
+            <ToDoItem key={toDoItem.get('itemId')}
+                      itemId={toDoItem.get('itemId')}
+                      description={toDoItem.get('description')}
+                      onRemoveClick={this.props.removeItem}
+                      onEdit={this.props.editItem}/>
+        )
     }
 
     render() {
         const toDoItems = this.props.toDoItems;
 
         return (
-            <div>
-                <h1>TODO List</h1>
-                <ul>
-                    {toDoItems.map(todoItem => <ToDoItem/>)}
+            <div className="toDoList">
+                <h2 className="toDoList__header">TODO List</h2>
+                <ToDoInput onAddItemClick={this.props.addItem}/>
+                <ul className="toDoList__body">
+                    {toDoItems.map(todoItem => this.renderToDoItem(todoItem))}
                 </ul>
-                <button type='button' onClick={this.onAddItemClick}>Add</button>
             </div>
         )
-    }
-
-    onAddItemClick() {
-        this.props.dispatch({
-            type: ADD_ITEM,
-            payload: {}
-        })
     }
 }
 
@@ -38,4 +43,12 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(ToDoList)
+function mapDispatchToProps(dispatch) {
+    return {
+        addItem: (description) => dispatch(addItem(description)),
+        removeItem: (itemId) => dispatch(removeItem(itemId)),
+        editItem: (itemId, description) => dispatch(editItem(itemId, description))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ToDoList)
