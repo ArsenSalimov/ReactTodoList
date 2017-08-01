@@ -1,6 +1,6 @@
-import {ADD_ITEM, EDIT_ITEM, REMOVE_ITEM} from "../contants/ToDoList";
+import {ADD_ITEM, EDIT_ITEM, REMOVE_ITEM} from "../constants/ToDoList";
 
-let nextTodoId = 0
+let nextTodoId = 0;
 
 export function addItem(description) {
     return {

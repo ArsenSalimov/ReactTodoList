@@ -1,5 +1,5 @@
 import {Map, List} from "immutable";
-import {ADD_ITEM, EDIT_ITEM, REMOVE_ITEM} from "../contants/ToDoList";
+import {ADD_ITEM, EDIT_ITEM, REMOVE_ITEM} from "../constants/ToDoList";
 
 export default (toDoItems = List(), action) => {
     switch (action.type) {
@@ -9,9 +9,9 @@ export default (toDoItems = List(), action) => {
                 description: action.payload.description
             }));
         case REMOVE_ITEM:
-            return toDoItems.delete(toDoItems.findIndex(toDoItem => toDoItem.itemId === action.payload));
+            return toDoItems.delete(toDoItems.findIndex(toDoItem => toDoItem.get('itemId') === action.payload));
         case EDIT_ITEM:
-            const index = toDoItems.findIndex(toDoItem => toDoItem.itemId === action.payload.itemId);
+            const index = toDoItems.findIndex(toDoItem => toDoItem.get('itemId') === action.payload.itemId);
             const item = toDoItems.get(index);
 
             return toDoItems.set(index, item.set('description', action.payload.description));
